@@ -137,6 +137,10 @@ def fishingMiniGame():
         if abs(fish3.rect.x-spot3[0])<6 and abs(fish3.rect.y-spot3[1])<6:
             spot3=(random.randint(100,1280),random.randint(100,800))
         
+        #button1.rect.x=fish1.rect.x  (this will put button1.x where fish1 is)
+        #button1.rect.y=fish1.rect.y
+        
+        
         minigame_group.draw(screen)
 
 
@@ -201,7 +205,7 @@ def mainLoop():
             elif current_location == "land":
                 nofish.draw()
 
-
+        #Later 
 
         pygame.display.update()
         clock.tick(60)
@@ -209,6 +213,20 @@ def mainLoop():
 mainLoop()
 
 #Homework
-#
+# Bring in an image of a button
+# Now, find a way to get the button to pop up on the each fish
+# in the mini game screen
+# For now, make it print fish_ clicked when you click on the button
+# It should tell you exactly which fish you clicked on
+# Good Luck!
 
 
+
+#GITHUB REPO
+#    https://github.com/AndrewPal04/FishingGame
+
+#Open the link above and click code
+#After, click download ZIP
+#Then, right click the ZIP and extract all
+#Then you can open that folder in your VS Code and you will have
+#everything exactly like how I do
