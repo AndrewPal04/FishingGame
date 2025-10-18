@@ -1,0 +1,1 @@
+player1.rect.x>0 and player1.rect.x<50
