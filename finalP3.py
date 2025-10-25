@@ -90,8 +90,11 @@ minigame_group.add(harpoon)
 last_location = ""
 
 def fishingMiniGame():
-    pygame.mixer.music.load("reel.mp3")
-
+    global cod_caught, angler_caught, shark_caught
+    pygame.mixer.music.load("reel.mp3") 
+    cod_caught=False
+    angler_caught=False
+    shark_caught=False
     fish1clicks=0
     fish2clicks=0
     fish3clicks=0
@@ -176,6 +179,7 @@ def fishingMiniGame():
             if fish1clicks==2:
                 minigame_group.remove(fish1)
                 minigame_group.remove(fish1_button)
+                cod_caught=True
         if fish2 in minigame_group:
             if fish2_button.draw():
                 pygame.mixer.music.play()
@@ -183,6 +187,7 @@ def fishingMiniGame():
             if fish2clicks==3:
                 minigame_group.remove(fish2)
                 minigame_group.remove(fish2_button)
+                angler_caught=True
         if fish3 in minigame_group:
             if fish3_button.draw():
                 pygame.mixer.music.play()
@@ -190,6 +195,7 @@ def fishingMiniGame():
             if fish3clicks==5:
                 minigame_group.remove(fish3)
                 minigame_group.remove(fish3_button)
+                shark_caught=True
 
         if end-start>4:
             break
@@ -249,6 +255,9 @@ def mainLoop():
         if fishing:
             if current_location == "bridge" or current_location == "water":
                 fishingMiniGame()
+                #Check to see if fish were caught and put them on the screen for a little
+                #And write texts
+                #if cod_caught: # change fish1x and y, then fish1.draw() and draw text
             elif current_location == "land":
                 nofish.draw()
 
@@ -260,14 +269,12 @@ def mainLoop():
 mainLoop()
 
 #Homework
-# Bring in an image of a button
-# Now, find a way to get the button to pop up on the each fish
-# in the mini game screen
-# For now, make it print fish_ clicked when you click on the button
-# It should tell you exactly which fish you clicked on
-# Good Luck!
-
-
+#Complete the part of the program where if you catch a fish
+#in the minigame, it shows the fish on the main screen
+#after they are caught. Next week, we will try to add an
+#inventory system to keep track of how many fish you have
+#Also, add a text that tells the user what fish they caught
+#Good Luck!
 
 #GITHUB REPO
 #    https://github.com/AndrewPal04/FishingGame
