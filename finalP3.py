@@ -13,9 +13,10 @@
 import pygame
 import time
 import random
-from classes import Background, Player, Text
+from classes import Background, Player, Text, Button
 
 pygame.init()
+
 
 # Screen setup
 screen_width, screen_height = 1380, 900
@@ -75,6 +76,9 @@ fish3=Background(screen, fish3IMG,0.5,random.randint(100,1280), random.randint(1
 harpoonIMG=pygame.image.load("harpoon.png")
 harpoon=Background(screen, harpoonIMG,0.7,100,750)
 
+# button image
+fishButtonIMG = pygame.image.load("FISHBUTTON.png")
+
 sprite_group = pygame.sprite.Group()
 sprite_group.add(bob)
 
@@ -86,11 +90,29 @@ minigame_group.add(harpoon)
 last_location = ""
 
 def fishingMiniGame():
+    pygame.mixer.music.load("reel.mp3")
+
+    fish1clicks=0
+    fish2clicks=0
+    fish3clicks=0
+    if fish1 not in minigame_group:
+        minigame_group.add(fish1)
+    if fish2 not in minigame_group:
+        minigame_group.add(fish2)
+    if fish3 not in minigame_group:
+        minigame_group.add(fish3)
+
     start=time.time()
     #Choosing spots for fish movement
     spot1=(random.randint(100,1280),random.randint(100,800))
     spot2=(random.randint(100,1280),random.randint(100,800))
     spot3=(random.randint(100,1280),random.randint(100,800))
+
+    # buttons for each fish
+    fish1_button = Button(screen, fishButtonIMG, 0.1, fish1.rect.x, fish1.rect.y - 50)
+    fish2_button = Button(screen, fishButtonIMG, 0.15, fish2.rect.x, fish2.rect.y - 50)
+    fish3_button = Button(screen, fishButtonIMG, 0.25, fish3.rect.x, fish3.rect.y - 50)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -112,7 +134,7 @@ def fishingMiniGame():
             fish1.rect.y-=3
         if abs(fish1.rect.x-spot1[0])<5 and abs(fish1.rect.y-spot1[1])<5:
             spot1=(random.randint(100,1280),random.randint(100,800))
-        
+
         #Movement for fish 2
         if fish2.rect.x<spot2[0]:
             fish2.rect.x+=3
@@ -124,7 +146,7 @@ def fishingMiniGame():
             fish2.rect.y-=3
         if abs(fish2.rect.x-spot2[0])<5 and abs(fish2.rect.y-spot2[1])<5:
             spot2=(random.randint(100,1280),random.randint(100,800))
-            
+
         #Movement for fish 3
         if fish3.rect.x<spot3[0]:
             fish3.rect.x+=5
@@ -136,15 +158,40 @@ def fishingMiniGame():
             fish3.rect.y-=5
         if abs(fish3.rect.x-spot3[0])<6 and abs(fish3.rect.y-spot3[1])<6:
             spot3=(random.randint(100,1280),random.randint(100,800))
-        
-        #button1.rect.x=fish1.rect.x  (this will put button1.x where fish1 is)
-        #button1.rect.y=fish1.rect.y
-        
-        
+
+
+
         minigame_group.draw(screen)
 
 
-        if end-start>15:
+        fish1_button.rect.centerx, fish1_button.rect.y = fish1.rect.centerx, fish1.rect.y - 30
+        fish2_button.rect.centerx, fish2_button.rect.y = fish2.rect.centerx, fish2.rect.y - 40
+        fish3_button.rect.centerx, fish3_button.rect.y = fish3.rect.centerx, fish3.rect.y - 45
+
+
+        if fish1 in minigame_group:
+            if fish1_button.draw():
+                pygame.mixer.music.play()
+                fish1clicks+=1
+            if fish1clicks==2:
+                minigame_group.remove(fish1)
+                minigame_group.remove(fish1_button)
+        if fish2 in minigame_group:
+            if fish2_button.draw():
+                pygame.mixer.music.play()
+                fish2clicks+=1
+            if fish2clicks==3:
+                minigame_group.remove(fish2)
+                minigame_group.remove(fish2_button)
+        if fish3 in minigame_group:
+            if fish3_button.draw():
+                pygame.mixer.music.play()
+                fish3clicks+=1
+            if fish3clicks==5:
+                minigame_group.remove(fish3)
+                minigame_group.remove(fish3_button)
+
+        if end-start>4:
             break
 
         pygame.display.update()
